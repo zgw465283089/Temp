@@ -89,10 +89,9 @@
 				card1 +=randomCard();
 				wanJia.innerHTML = card1;
 				//random = Math.round(Math.random()*(array.length-1));
-				card2 += randomCard();
+				card2 += "<div class='card' style='background:url(img/caredback4.png)'></div>";
 				//random = Math.round(Math.random()*(array.length-1));
-				card2 += "<div class='card' style='background:url(img/club1.png)' cardValue='11'></div>";
-				zhuangJia.innerHTML = card2;
+				card2 += randomCard();
 				
 				insurance();
 			}

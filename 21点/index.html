@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>21点</title>
+		<style type="text/css">
+			#container{width: 1200px;margin: 0 auto;height: 1000px;}
+			.desk{width: 1200px;height: 800px;background: #ccc;position: relative;background: url(img/desk1.jpg);padding-top: 100px;}
+			.zhuangjia{width: 600px;height: 200px;text-align: center;margin: 5px auto;display: flex;flex-flow: row;justify-content: center;}
+			.wanjia{width: 600px;height: 200px;text-align: center;margin: 5px auto;display: flex;flex-flow: row;justify-content: center;margin-top:50px ;}
+			.xiazhu{position: absolute;bottom: 5px;right: 5px;width: 200px;height: 200px;}
+			.control{width: 80px;height: 80px;position: absolute;left: 5px;bottom: 5px;}
+			.card{width:138px;height: 180px;float: left;}
+			.choose{width: 200px;height: 40px;text-align: center;display: flex;flex: row;justify-content: center;position: absolute;left: 500px;top: 680px;}
+			#img{width: 100px;height: 100px;position: absolute;top: 5px;left: 5px;background: url(img/face2.gif);}
+			#pic_zhuang{width: 140px;height: 100px;position: absolute;left: 50%;margin-left: -70px;top: 0;}
+			#pic_player{width: 100px;height: 100px;position: absolute;left: 50%;margin-left: -50px;top: 550px;}
+			#money{width: 150px;height: 30px;position: absolute;right: 0;top: 400px;background: red;line-height: 30px;font-weight: bold;text-align: center;}
+			#chouma{width: 150px;height: 30px;position: absolute;right: 0;top:440px;background: red;line-height: 30px;font-weight: bold;text-align: center;}
+			#btn9{width: 80px;height: 80px;border-radius: 50%;background: pink;font-family: "微软雅黑";font-weight: bold;}
+			#btn9:hover{background: #FF0000;}
+			#btn1{width: 30px;height: 30px;border-radius: 50%;position: absolute;right: 180px;bottom: 5px;transition: all ease 0.5s; background: beige;border: none;}
+			#btn2{width: 35px;height: 35px;border-radius: 50%;position: absolute;right: 160px;bottom: 50px;transition: all ease 0.5s;background: bisque;border: none;}
+			#btn3{width: 40px;height: 40px;border-radius: 50%;position: absolute;right: 120px;bottom: 90px;transition: all ease 0.5s;background: burlywood;border: none;}
+			#btn4{width: 45px;height: 45px;border-radius: 50%;position: absolute;right: 70px;bottom: 130px;transition: all ease 0.5s;background: firebrick;border:none ;}
+			#btn1:hover{background: yellow;}
+			#btn2:hover{background: orange;}
+			#btn3:hover{background: red;}
+			#btn4:hover{background: darkmagenta;}
+			#btn5{width: 90px;height: 90px;border-radius: 50%;position: absolute;right: 5px;bottom: 5px;transition: all ease 0.5s; background: deeppink;border: none;font-family: "微软雅黑";
+			font-size: 15px;font-weight: bold;}
+			#btn5:hover{width: 100px;height: 100px;font-size: 20px;}
+			.choose button{width: 50px;height: 50px;border-radius: 50%;border: none;background: #CCCCCC;transition: all ease 0.5s;}
+			.choose button:hover{width: 60px;height: 60px;background: #FFA500;}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div class="desk">
+				<div id="img"></div>
+				<div id="pic_zhuang"><img src="img/banker.png"/><img src="img/head.png"/></div>
+				<div class="zhuangjia"></div>
+				<div class="wanjia"></div>
+				<div id="pic_player"><img src="img/head1.png"/></div>
+				<div id="money">还剩：$<span id="money_now">500</span></div>
+				<div id="chouma">下注：$<span id="money_xiazhu">0</span></div>
+				<div class="control">
+					<button id="btn9" >重新开始</button>			
+				</div>
+				<div class="xiazhu">
+				<button id="btn1">25</button>
+				<button id="btn2">50</button>
+				<button id="btn3">75</button>
+				<button id="btn4">100</button>
+				<button id="btn5">下注！</button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var J = 10,Q = 10,K = 10,A = 11;
+			//数组用于计数
+			var array = [
+				A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K
+			];
+			
+			//一副牌
+			var card =["img/club1.png","img/club2.png","img/club3.png","img/club4.png","img/club5.png","img/club6.png","img/club7.png",
+					   "img/club8.png","img/club9.png","img/club10.png","img/club11.png","img/club12.png","img/club13.png",
+					   "img/heart1.png","img/heart2.png","img/heart3.png","img/heart4.png","img/heart5.png","img/heart6.png","img/heart7.png",
+					   "img/heart8.png","img/heart9.png","img/heart10.png","img/heart11.png","img/heart12.png","img/heart13.png",
+					   "img/spade1.png","img/spade2.png","img/spade3.png","img/spade4.png","img/spade5.png","img/spade6.png","img/spade7.png",
+					   "img/spade8.png","img/spade9.png","img/spade10.png","img/spade11.png","img/spade12.png","img/spade13.png",
+					   "img/square1.png","img/square2.png","img/square3.png","img/square4.png","img/square5.png","img/square6.png","img/square7.png",
+					   "img/square8.png","img/square9.png","img/square10.png","img/square11.png","img/square12.png","img/square13.png",
+			];
+			
+			//开始发牌
+			function fapai(){
+				var card1 = "" , card2 = "";
+				var zhuangJia = document.getElementsByClassName("zhuangjia")[0];
+				var wanJia = document.getElementsByClassName("wanjia")[0];
+				//var random = Math.round(Math.random()*(array.length-1));
+				//card1 += "<div class='card' style='background:url("+card.splice(random,1)+")'>"+array.splice(random,1)+"</div>";
+				card1 += randomCard();
+				//random = Math.round(Math.random()*(array.length-1));
+				card1 += randomCard();
+				wanJia.innerHTML = card1;
+				//random = Math.round(Math.random()*(array.length-1));
+				card2 += "<div class='card' style='background:url(img/caredback4.png)'></div>";
+				//random = Math.round(Math.random()*(array.length-1));
+				card2 += randomCard();
+				zhuangJia.innerHTML = card2;
+				
+			}
+			//随机发牌
+			function randomCard(){
+				var random = Math.round(Math.random()*(array.length-1));
+				//判断抽到的是否是A
+				return  "<div class='card' style='background:url("+card.splice(random,1)+")' cardValue='"+array.splice(random,1)+"'></div>";
+			}
+			//玩家要牌
+			function yaoPai(){
+				var wanJia = document.getElementsByClassName("wanjia")[0];
+				//var random = Math.round(Math.random()*(array.length-1));
+				wanJia.innerHTML += randomCard();
+				
+			}
+			//庄家拿牌
+			function hosterYaoPai(){
+				var zhuangJia = document.getElementsByClassName("zhuangjia")[0];
+				//var random = Math.round(Math.random()*(array.length-1));
+				zhuangJia.innerHTML += randomCard();
+			}
+			//点击下注后桌面的变化
+			function xiaZhu(){
+				var desk = document.getElementsByClassName("desk")[0];
+				desk.innerHTML += "<div class='choose'><button id='btn6'>要牌</button><button id='btn7'>防爆</button><button id='btn8' disabled='disabled'>重新洗牌</button></div>";
+				//点击要牌后
+				var btn6 = document.getElementById("btn6");
+				btn6.addEventListener("click",function(){
+					yaoPai();
+					playerAdd();					
+				});
+				var btn7 = document.getElementById("btn7");
+				btn7.addEventListener("click",function(){
+					var zhuangJia = document.getElementsByClassName("zhuangjia")[0];
+					var random = Math.round(Math.random()*(array.length-1));
+					zhuangJia.childNodes[0].style.background = "url("+card.splice(random,1)+")";
+					zhuangJia.childNodes[0].setAttribute("cardValue",array.splice(random,1));
+					while(hosterAdd()<playerAdd()){
+						hosterYaoPai();
+						
+						if(hosterAdd()>21){
+							
+							faceChange("hey");
+							btn6.disabled="disabled";
+							btn7.disabled="disabled";
+							btn8.disabled= false;
+							var moneyNow = document.getElementById("money_now");
+							var moneyXiazhu = document.getElementById("money_xiazhu");
+							moneyNow.innerHTML = parseInt(moneyNow.innerHTML) +2*parseInt(moneyXiazhu.innerHTML);
+							moneyXiazhu.innerHTML = 0;
+							alert("解毒！");
+							return;
+						}
+					}
+					if(hosterAdd()==playerAdd()){
+						
+						faceChange("angry");
+						btn6.disabled="disabled";
+						btn7.disabled="disabled";
+						btn8.disabled= false;
+						var moneyNow = document.getElementById("money_now");
+						var moneyXiazhu = document.getElementById("money_xiazhu");
+						moneyNow.innerHTML = parseInt(moneyNow.innerHTML) +parseInt(moneyXiazhu.innerHTML);
+						moneyXiazhu.innerHTML = 0;
+						alert("菜鸡互啄！平局");
+					}else{
+						faceChange("cry");
+						btn6.disabled="disabled";
+						btn7.disabled="disabled";
+						btn8.disabled= false;
+						var moneyNow = document.getElementById("money_now");
+						var moneyXiazhu = document.getElementById("money_xiazhu");						
+						moneyXiazhu.innerHTML = 0;
+						if(parseInt(moneyNow.innerHTML)<=0){
+							var btn9 = document.getElementById("btn9");
+							btn9.onclick=function(){restart();};
+							btn8.disabled="disabled";
+							
+							alert("game over!");
+						}else{
+							alert("可恶的庄家胜利！");
+						}	
+//					alert(playerAdd());
+					}
+				});
+				//绑定重新开始按钮
+				var btn8 =document.getElementById("btn8");
+				btn8.onclick=function(){
+					goAhead();
+				}
+			}
+			//玩家计数累计
+			function playerAdd(){
+				var btn6 = document.getElementById("btn6");
+				var btn7 = document.getElementById("btn7");
+				var sum =0;
+				var wanJia = document.getElementsByClassName("wanjia")[0];
+				var totle = wanJia.childNodes;
+				for(var i=0;i<totle.length;i++){
+					sum += parseInt(totle[i].getAttribute("cardValue"));
+				}
+				if(sum>21){
+					faceChange("cry");
+					btn6.disabled="disabled";
+					btn7.disabled="disabled";
+					btn8.disabled= false;	
+					var moneyNow = document.getElementById("money_now");
+					var moneyXiazhu = document.getElementById("money_xiazhu");						
+					moneyXiazhu.innerHTML = 0;
+					if(parseInt(moneyNow.innerHTML)<=0){
+						alert("game over!");
+						var btn9 = document.getElementById("btn9");
+						btn9.onclick=function(){restart();};
+						
+						btn8.disabled="disabled";
+					}else{
+						alert("boomboomboom！咖喱改改");
+					}
+				}
+					return sum;
+				
+			}
+			//庄家计数累计
+			function hosterAdd(){
+				var sum = 0;
+				var zhuangJia = document.getElementsByClassName("zhuangjia")[0];
+				var totle1 = zhuangJia.childNodes;
+				for(var i=0;i<totle1.length;i++){
+					sum += parseInt(totle1[i].getAttribute("cardValue"));
+				}
+				
+				return sum;
+			}
+			//重新洗牌，再来一局
+			function goAhead(){
+				var zhuangJia = document.getElementsByClassName("zhuangjia")[0];
+				var wanJia = document.getElementsByClassName("wanjia")[0];
+				zhuangJia.innerHTML = "";
+				wanJia.innerHTML = "";
+				card =["img/club1.png","img/club2.png","img/club3.png","img/club4.png","img/club5.png","img/club6.png","img/club7.png",
+					   "img/club8.png","img/club9.png","img/club10.png","img/club11.png","img/club12.png","img/club13.png",
+					   "img/heart1.png","img/heart2.png","img/heart3.png","img/heart4.png","img/heart5.png","img/heart6.png","img/heart7.png",
+					   "img/heart8.png","img/heart9.png","img/heart10.png","img/heart11.png","img/heart12.png","img/heart13.png",
+					   "img/spade1.png","img/spade2.png","img/spade3.png","img/spade4.png","img/spade5.png","img/spade6.png","img/spade7.png",
+					   "img/spade8.png","img/spade9.png","img/spade10.png","img/spade11.png","img/spade12.png","img/spade13.png",
+					   "img/square1.png","img/square2.png","img/square3.png","img/square4.png","img/square5.png","img/square6.png","img/square7.png",
+					   "img/square8.png","img/square9.png","img/square10.png","img/square11.png","img/square12.png","img/square13.png",
+					];
+				array = [
+							A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K
+						];
+				faceChange("face2");
+				var choose = document.getElementsByClassName("choose")[0];
+				choose.parentNode.removeChild(choose);
+				showHand();
+				var btn9 = document.getElementById("btn9");
+				btn9.onclick=function(){restart();};
+			}
+			//表情变化
+			function faceChange(appearance){
+				var face = document.getElementById("img");
+				face.style.background="";
+				face.style.background = "url(img/"+appearance+".gif)";
+			}
+			//绑定下注按钮
+			
+			
+			
+			//加筹码
+			function showHand(){
+				var btn1 = document.getElementById("btn1");
+				var btn2 = document.getElementById("btn2");
+				var btn3 = document.getElementById("btn3");
+				var btn4 = document.getElementById("btn4");
+				var btn5 = document.getElementById("btn5");
+				var btn9 = document.getElementById("btn9");
+				btn5.onclick=function(){fapai();xiaZhu();};
+				btn1.onclick = function(){num(25);};
+				btn2.onclick = function(){num(50);};
+				btn3.onclick = function(){num(75);};
+				btn4.onclick = function(){num(100);};			
+				btn9.onclick=function(){restart();};
+			};
+				
+			showHand();
+			
+			function num(num){
+					var moneyNow = document.getElementById("money_now");
+					var moneyXiazhu = document.getElementById("money_xiazhu");
+					if(moneyNow.innerHTML<num) return;
+					moneyNow.innerHTML -= num ;
+					moneyXiazhu.innerHTML = num+parseInt(moneyXiazhu.innerHTML);			
+				}
+			function restart(){
+				window.location.reload();
+			}	
+		</script>
+	</body>
+</html>
